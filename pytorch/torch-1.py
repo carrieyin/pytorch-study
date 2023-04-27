@@ -1,10 +1,12 @@
 # by y_dd
 # 时间 2023/04/22
 import torch
-
+import matplotlib.pyplot as plt
 #1.数据准备
 x = torch.rand([500, 1])
 y = x*0.5 + 0.8
+plt.plot(x, y)
+plt.show()
 w = torch.rand([1,1],  requires_grad=True, dtype=torch.float32)
 b = torch.tensor(0, requires_grad=True, dtype=torch.float32)
 #2.预测值准备（此处简单模型直接计算出来）
@@ -12,7 +14,7 @@ b = torch.tensor(0, requires_grad=True, dtype=torch.float32)
 
 learningrate=0.001
 #3.不断的反向传播,调整
-for i in range(2000):
+for i in range(200):
 
     y_predict = torch.matmul(x,w) + b
     #3.1.计算loss
