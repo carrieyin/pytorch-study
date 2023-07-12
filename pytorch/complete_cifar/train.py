@@ -38,6 +38,7 @@ optim = torch.optim.SGD(mouleTest.parameters(),lr=0.01)
 index=0
 # writer = SummaryWriter("loss_c")
 for epoch in range(2):
+    print("train: epoch:{}".format(epoch))
     for data in dataloader:
         image, target = data
         #print(target)
@@ -49,5 +50,6 @@ for epoch in range(2):
         # print("index:{}, loss:{}".format(index, lossresult))
         # writer.add_scalar("loss", lossresult.item(), index)
         index = index +1
+    epoch = epoch + 1
 
-torch.save(mouleTest.state_dict(), "../moule_save/class_10_1.pth")
+torch.save(mouleTest.state_dict(), "../moudle_save/class_10_1.pth")
