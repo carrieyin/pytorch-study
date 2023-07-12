@@ -5,7 +5,11 @@ import torchvision.datasets
 from torch.nn import Conv2d, Sequential, MaxPool2d, Flatten, Linear
 from torch.utils.data import DataLoader
 import torch.nn as nn
+import datetime
 
+from torch.utils.tensorboard import SummaryWriter
+
+now = datetime.datetime.now()
 dataset = torchvision.datasets.CIFAR10("../../../dataset/cifar-10", train=True, transform=torchvision.transforms.ToTensor(), download=True)
 print(len(dataset))
 dataloader = DataLoader(dataset, batch_size=64)
@@ -36,8 +40,8 @@ mouleTest=ClassMoudle()
 optim = torch.optim.SGD(mouleTest.parameters(),lr=0.01)
 
 index=0
-# writer = SummaryWriter("loss_c")
-for epoch in range(2):
+writer = SummaryWriter("logs")
+for epoch in range(10):
     print("train: epoch:{}".format(epoch))
     for data in dataloader:
         image, target = data
@@ -48,8 +52,11 @@ for epoch in range(2):
         lossresult.backward()
         optim.step()
         # print("index:{}, loss:{}".format(index, lossresult))
-        # writer.add_scalar("loss", lossresult.item(), index)
+        writer.add_scalar("loss", lossresult.item(), index)
         index = index +1
     epoch = epoch + 1
+
+current = datetime.datetime.now()
+print("traning data used:{}".format(current - now))
 
 torch.save(mouleTest.state_dict(), "../moudle_save/class_10_1.pth")

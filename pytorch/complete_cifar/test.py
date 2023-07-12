@@ -2,9 +2,9 @@ import os
 import torch
 import torchvision
 from torch.utils.data import DataLoader
-from torch.utils.tensorboard import SummaryWriter
 import torchvision.models
 from torch.nn import Conv2d, Sequential, MaxPool2d, Flatten, Linear
+from torch.utils.tensorboard import SummaryWriter
 
 test_dataset = torchvision.datasets.CIFAR10("../../../dataset/cifar-10", train=False, transform=torchvision.transforms.ToTensor(), download=True)
 test_dataloader = DataLoader(test_dataset, batch_size=64)
@@ -26,4 +26,12 @@ if not os.path.exists("../moudle_save/class_10_1.pth"):
 
 mouleTest.load_state_dict(torch.load("../moudle_save/class_10_1.pth"), strict=False)
 
-print(mouleTest)
+writer = SummaryWriter("./logs")
+step = 0
+with torch.no_grad():
+    for data in test_dataloader:
+        image, target = data
+        output = mouleTest(image)
+        accureNum = (output.argmax(1) == target).sum()
+        writer.add_scalar("acuraccy", accureNum / image.size(0), step)
+        step = step + 1
