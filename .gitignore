@@ -1,2 +1,9 @@
 .idea/
 v/
+dataset/
+image/
+moudle_save/
+__pycache__/
+docs/
+data/
+logs/
