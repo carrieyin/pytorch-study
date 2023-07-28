@@ -43,7 +43,7 @@ optim = torch.optim.SGD(mouleTest.parameters(),lr=0.01)
 
 index=0
 writer = SummaryWriter("loss_1")
-for epoch in range(10):
+for epoch in range(20):
     for data in dataloader:
         image, target = data
         #print(target)

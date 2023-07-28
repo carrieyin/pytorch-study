@@ -12,9 +12,10 @@ from torch.utils.tensorboard import SummaryWriter
 now = datetime.datetime.now()
 dataset = torchvision.datasets.CIFAR10("../../../dataset/cifar-10", train=True, transform=torchvision.transforms.ToTensor(), download=True)
 print(len(dataset))
-dataloader = DataLoader(dataset, batch_size=64)
+dataloader = DataLoader(dataset, batch_size=2)
 
 print(dataset[0][0].shape)
+print(dataset[0][0])
 
 class ClassMoudle(nn.Module):
     def __init__(self):

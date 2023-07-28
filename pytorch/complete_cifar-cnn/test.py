@@ -33,5 +33,12 @@ with torch.no_grad():
         image, target = data
         output = mouleTest(image)
         accureNum = (output.argmax(1) == target).sum()
+        print(output.shape)
+        print(output)
+        print(output.argmax(1))
+        break
+        print(target)
+        print(accureNum)
+        break
         writer.add_scalar("acuraccy", accureNum / image.size(0), step)
         step = step + 1
