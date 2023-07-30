@@ -7,6 +7,8 @@ from torch.utils.data import DataLoader
 import torch.nn as nn
 from torch.utils.tensorboard import SummaryWriter
 
+WRITER_ADD_SCALAR = writer.add_scalar("acuraccy", accureNum / image.size(0), step)
+
 dataset = torchvision.datasets.CIFAR10("../../../dataset/cifar-10", train=True, transform=torchvision.transforms.ToTensor(), download=True)
 test_dataset = torchvision.datasets.CIFAR10("../../../dataset/cifar-10", train=False, transform=torchvision.transforms.ToTensor(), download=True)
 print(len(dataset))
@@ -70,6 +72,5 @@ with torch.no_grad():
         accureNum = (output.argmax(1) == target).sum()
 
         writer.add_scalar("train_loss", loss_result.item(), step)
-        writer.add_scalar("acuraccy", accureNum / image.size(0), step)
         step = step + 1
 writer.close()

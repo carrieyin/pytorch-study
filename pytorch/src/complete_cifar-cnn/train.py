@@ -60,4 +60,4 @@ for epoch in range(10):
 current = datetime.datetime.now()
 print("traning data used:{}".format(current - now))
 
-torch.save(mouleTest.state_dict(), "../moudle_save/class_10_1.pth")
+torch.save(mouleTest.state_dict(), "../../target/moudle_save/class_10_1.pth")

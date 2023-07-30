@@ -20,13 +20,13 @@ mouleTest = Sequential(
     Linear(1024, 64),
     Linear(64, 10))
 
-if not os.path.exists("../moudle_save/class_10_1.pth"):
+if not os.path.exists("../../moudle_save/class_10_1.pth"):
     print("error exist")
     exit(-1)
 
-mouleTest.load_state_dict(torch.load("../moudle_save/class_10_1.pth"), strict=False)
+mouleTest.load_state_dict(torch.load("../../moudle_save/class_10_1.pth"), strict=False)
 
-writer = SummaryWriter("./logs")
+writer = SummaryWriter("logs")
 step = 0
 with torch.no_grad():
     for data in test_dataloader:
