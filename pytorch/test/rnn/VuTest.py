@@ -16,7 +16,6 @@ def testVu(train_data):
     index = vu.lookup_indices([word])
     print(index[0])
 
-
 if __name__ == '__main__':
     train_data = ['apple banana', 'banana', 'orange grape']
     testVu(train_data)
