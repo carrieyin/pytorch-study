@@ -9,7 +9,7 @@ from tkinter import _flatten
 from tqdm import tqdm
 
 # 解压缩数据集
-dataPath = "..\\..\\..\\dataset\\"
+dataPath = "..\\..\\..\\..\\dataset\\"
 imdb_zip_path = os.path.join(dataPath, "aclImdb")
 # 如果不存在则解压压缩包
 if not os.path.exists(imdb_zip_path):
@@ -54,8 +54,8 @@ def pad(x, max_len):
 
 
 # 数据预处理
-def preprocess(data):
-    max_len = 500
+def preprocess(data, max_len):
+    # 输入data形式[[评论1, label],....[评论i, label]]
     # 1.获取分词数据形式[[评论1分词1,评论1分词n], [评论i分词1， 评论i分词m].....]
     tokenized_data = get_tokenized(data)
     # print(tokenized_data)
@@ -83,8 +83,12 @@ bathsize = 64
 
 if __name__ == '__main__':
 
-    # train_data = [['"dick tracy" is one of our"', 1],
-    # ['arguably this is a  the )', 1],
-    # ["i don't  just to warn anyone ", 0]]
+     # train_data = [['"dick tracy" is one of our"', 1],
+     #                 ['arguably this is a  the )', 1],
+     #             ["i don't  just to warn anyone ", 0]]
+
+    # 从文件中读取数据，读取后的格式[[评论1，label]...[评论2， label]]
     train_data = read_imdb('train')
-    preprocess(train_data)
+    #print(len(train_data))
+    data_len = 500
+    preprocess(train_data, 500)
