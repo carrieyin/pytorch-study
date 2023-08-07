@@ -12,10 +12,10 @@ class ImdbLoader(object):
         train_data = read_imdb(self.data_set)
         data = preprocess(train_data)
         data_set = Data.TensorDataset(data)
-        dataloader = Data.dataloader(data_set, self.bathsize)
-        return dataloader
-
+        data_loader = Data.dataloader(data_set, self.bathsize)
+        return data_loader
 
 
 if __name__ == '__main__':
-    pass
+    imdb_load = ImdbLoader('train', 2)
+    data_load = imdb_load.get_data_loader()
