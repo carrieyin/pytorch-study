@@ -73,13 +73,6 @@ def preprocess(data):
     labels = torch.tensor([label for _, label in data])
     return features, labels
 
-# train_set = Data.TensorDataset()
-# test_set = Data.TensorDataset()
-
-
-bathsize = 64
-# train_dataloader = Data.dataloader(train_set, bathsize)
-# test_dataloader = Data.dataloader(test_set, bathsize)
 
 if __name__ == '__main__':
 
