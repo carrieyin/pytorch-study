@@ -1,3 +1,4 @@
+import torch
 import torch.utils.data as Data
 from data_preprocess import preprocess, read_imdb
 
@@ -9,13 +10,19 @@ class ImdbLoader(object):
         self.batch_size = batch_size
 
     def get_data_loader(self):
-        train_data = read_imdb(self.data_set)
+        train_data = [['"dick tracy" is one of our"', 1],
+                      ['arguably this is a  the )', 1],
+                      ["i don't  just to warn anyone ", 0]]
+        # train_data = read_imdb(self.data_set)
         data = preprocess(train_data)
-        data_set = Data.TensorDataset(data)
-        data_loader = Data.dataloader(data_set, self.bathsize)
+        #print(data)
+        data_set = Data.TensorDataset(*data)
+        data_loader = Data.DataLoader(data_set, self.batch_size)
         return data_loader
 
 
 if __name__ == '__main__':
-    imdb_load = ImdbLoader('train', 2)
-    data_load = imdb_load.get_data_loader()
+    imdb_load = ImdbLoader('train', batch_size=2)
+    data_iter = data_load = imdb_load.get_data_loader()
+    for x, y in data_iter:
+        print('x.shape', x.shape, 'y.shape', y.shape)
