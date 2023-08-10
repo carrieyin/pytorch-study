@@ -8,7 +8,7 @@ class BiRNN(nn.Module):
     def __int__(self, vocabulary, embed_len, hidden_len, num_layer):
         super(BiRNN, self).__int__()
         self.embedding = nn.Embedding()
-        self.encoder = nn.LSTM(input_size=len(vocabulary),
+        self.encoder = nn.LSTM(vocabulary, input_size=len(vocabulary),
                                embed_size=embed_len,
                                hidden_size=hidden_len)
 
@@ -29,11 +29,10 @@ if __name__ == '__main__':
                     ["i don't  just to warn anyone ", 0]]
     # 1.获取分词数据形式[[评论1分词1,评论1分词n], [评论i分词1， 评论i分词m].....]
     tokenized_data = get_tokenized(train_data)
-    # print(tokenized_data)
 
     # 2. 获取分词词汇表(vocab类)
     vo = get_vocab(tokenized_data)
 
     # 3. 构建模型
-    embed_size, hidden_size, num_layer = 100, 100, 2
-    net = BiRNN(vo, embed_size, hidden_size, num_layer)
+    embed_size, hidden_size, num_layers = 100, 100, 2
+    net = BiRNN(vo, embed_size, hidden_size, num_layers)
