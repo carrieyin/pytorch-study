@@ -10,10 +10,10 @@ class ImdbLoader(object):
         self.batch_size = batch_size
 
     def get_data_loader(self):
-        train_data = [['"dick tracy" is one of our"', 1],
-                      ['arguably this is a  the )', 1],
-                      ["i don't  just to warn anyone ", 0]]
-        # train_data = read_imdb(self.data_set)
+        # train_data = [['"dick tracy" is one of our"', 1],
+        #               ['arguably this is a  the )', 1],
+        #               ["i don't  just to warn anyone ", 0]]
+        train_data = read_imdb(self.data_set)
         data = preprocess(train_data)
         #print(data)
         data_set = Data.TensorDataset(*data)

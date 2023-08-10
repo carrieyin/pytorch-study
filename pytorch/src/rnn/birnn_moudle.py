@@ -1,4 +1,7 @@
 from torch import nn as nn
+import torch
+
+from pytorch.src.rnn.data_preprocess import get_tokenized, get_vocab
 
 
 class BiRNN(nn.Module):
@@ -6,5 +9,31 @@ class BiRNN(nn.Module):
         super(BiRNN, self).__int__()
         self.embedding = nn.Embedding()
         self.encoder = nn.LSTM(input_size=len(vocabulary),
-                               embed_size=embed_len)
+                               embed_size=embed_len,
+                               hidden_size=hidden_len)
 
+        # 使用起始和最终时间步的隐藏状态座位全连接层的输入
+        self.decoder = nn.Linear(2*2*hidden_len, 2)
+
+    def forward(self, inputs):
+        embeddings = self.embedding(inputs.permute(1, 0))
+        output_sequence, _ = self.encoder(embeddings)
+        concat_out = torch.cat((output_sequence[0], output_sequence[-1]), -1)
+        outputs = self.decoder(concat_out)
+        return outputs
+
+
+if __name__ == '__main__':
+    train_data = [['"dick tracy" is one of our"', 1],
+                    ['arguably this is a  the )', 1],
+                    ["i don't  just to warn anyone ", 0]]
+    # 1.获取分词数据形式[[评论1分词1,评论1分词n], [评论i分词1， 评论i分词m].....]
+    tokenized_data = get_tokenized(train_data)
+    # print(tokenized_data)
+
+    # 2. 获取分词词汇表(vocab类)
+    vo = get_vocab(tokenized_data)
+
+    # 3. 构建模型
+    embed_size, hidden_size, num_layer = 100, 100, 2
+    net = BiRNN(vo, embed_size, hidden_size, num_layer)
