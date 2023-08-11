@@ -3,7 +3,7 @@ import os.path
 import torch
 from torchtext import vocab
 
-from pytorch.src.rnn.birnn_moudle import BiRNN
+from pytorch.src.rnn.birnn_model import BiRNN
 from pytorch.src.rnn.data_preprocess import get_tokenized, get_vocab
 
 

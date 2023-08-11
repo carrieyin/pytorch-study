@@ -2,7 +2,7 @@ import torch.optim
 from torch import nn
 from torchtext.vocab import vocab
 
-from pytorch.src.rnn.birnn_moudle import BiRNN
+from pytorch.src.rnn.birnn_model import BiRNN
 from pytorch.src.rnn.data_load import ImdbLoader
 from pytorch.src.rnn.data_preprocess import get_tokenized, get_vocab
 from pytorch.src.rnn.pretrain_glove import load_pretrained_embedding, getGlove
