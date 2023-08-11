@@ -5,14 +5,15 @@ from pytorch.src.rnn.data_preprocess import get_tokenized, get_vocab
 
 
 class BiRNN(nn.Module):
-    def __int__(self, vocabulary, embed_len, hidden_len, num_layer):
-        super(BiRNN, self).__int__()
-        self.embedding = nn.Embedding()
-        self.encoder = nn.LSTM(vocabulary, input_size=len(vocabulary),
-                               embed_size=embed_len,
-                               hidden_size=hidden_len)
+    def __init__(self, vocabulary, embed_len, hidden_len, num_layer):
+        super(BiRNN, self).__init__()
+        self.embedding = nn.Embedding(len(vocabulary), embed_len)
+        self.encoder = nn.LSTM(input_size=embed_len,
+                               hidden_size=hidden_len,
+                               num_layers=num_layer,
+                               bidirectional=True)
 
-        # 使用起始和最终时间步的隐藏状态座位全连接层的输入
+        # 本次使用起始和最终时间步的隐藏状态座位全连接层的输入
         self.decoder = nn.Linear(2*2*hidden_len, 2)
 
     def forward(self, inputs):
