@@ -8,20 +8,24 @@ from pytorch.src.rnn.data_preprocess import get_tokenized, get_vocab
 
 
 def getGlove():
-    go = vocab.GloVe(name='6B', dim=100, cache=os.path.join("../../resources", "golve"))
+    glo = vocab.GloVe(name='6B', dim=100, cache=os.path.join("../../resources", "golve"))
+    return glo
 
 
 def load_pretrained_embedding(words, pretrained_vocabu):
     # 初始化
-    embed_word = torch.zeros(len(words), pretrained_vocabu.vectors[0].shap[0])
+    embed_words = torch.zeros(len(words), pretrained_vocabu.vectors[0].shape[0])
+    print(embed_words.shape)
     count_words = 0
     for i, word in enumerate(words):
         try:
-            idx = pretrained_vocabu[word]
-            embed_word[i, :] = pretrained_vocabu.vectors[idx]
+            idx = pretrained_vocabu.stoi[word]
+            print('idx:', idx, 'word:', word)
+            embed_words[i, :] = pretrained_vocabu.vectors[idx]
         except KeyError:
             count_words += 1
-    return embed_word
+        #print(embed_word)
+    return embed_words
 
 
 if __name__ == '__main__':
@@ -37,5 +41,6 @@ if __name__ == '__main__':
     # 3. 构建模型
     embed_size, hidden_size, num_layers = 100, 100, 2
     net = BiRNN(vo, embed_size, hidden_size, num_layers)
-    net.embedding.weight.data.copy_(load_pretrained_embedding(vocab.itos, getGlove))
+    glove_vab = getGlove()
+    net.embedding.weight.data.copy_(load_pretrained_embedding(vo.get_itos(), glove_vab))
     net.embedding.weight.requires_grad = False

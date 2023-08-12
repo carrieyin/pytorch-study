@@ -17,6 +17,7 @@ class BiRNN(nn.Module):
         self.decoder = nn.Linear(2*2*hidden_len, 2)
 
     def forward(self, inputs):
+        print('rnn model py: input_shape: ', inputs.shape)
         embeddings = self.embedding(inputs.permute(1, 0))
         output_sequence, _ = self.encoder(embeddings)
         concat_out = torch.cat((output_sequence[0], output_sequence[-1]), -1)
