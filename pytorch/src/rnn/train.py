@@ -44,6 +44,7 @@ def train(epoch, imdb_model, lr, train_batch_size):
             torch.save(imdb_model.state_dict(), '../../resources/model_save/imdb_net.pkl')
             torch.save(optimizer.state_dict(), '../../resources/model_save/imdb_optimizer.pkl')
 
+
 def test(imdb_model, test_batch_size):
     imdb_model.eval()
     loader = ImdbLoader('test', test_batch_size)
