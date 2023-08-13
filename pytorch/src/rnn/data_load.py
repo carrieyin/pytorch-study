@@ -22,7 +22,8 @@ class ImdbLoader(object):
 
 
 if __name__ == '__main__':
-    imdb_load = ImdbLoader('train', batch_size=2)
-    data_iter = data_load = imdb_load.get_data_loader()
-    for x, y in data_iter:
-        print('x.shape', x.shape, 'y.shape', y.shape)
+    imdb_load = ImdbLoader('train', batch_size=3)
+    data_iter = imdb_load.get_data_loader()
+    for data in data_iter:
+        input, targets = data
+        print(input.shape, targets.shape)

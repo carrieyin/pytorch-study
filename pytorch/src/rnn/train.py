@@ -1,5 +1,5 @@
 import torch.optim
-from torch import nn
+from torch import nn, autograd
 from torchtext.vocab import vocab
 import os
 from pytorch.src.rnn.birnn_model import BiRNN
@@ -25,6 +25,7 @@ def train(epoch, imdb_model, lr, train_batch_size):
 
         optimizer.zero_grad()
         output = imdb_model(inputs)
+        print('ouput.shape', output.shape)
         criterion = nn.CrossEntropyLoss()
         loss = criterion(output, target)
         loss.backward()
@@ -33,15 +34,48 @@ def train(epoch, imdb_model, lr, train_batch_size):
         if idx % 100 == 0:
             predict = torch.max(output, dim=-1, keepdim=False)[-1]
             acc = predict.eq(target.data).cpu().numpy().mean() * 100
-            print('train Epoch:{} processed:[{} / {} ({.0f}%) Loss: {.6f}, ACC: {.6f}]'.format(
+            print('train Epoch:{} processed:[{} / {} ({:.6f}) Loss: {:.6f}, ACC: {:.6f}]'.format(
                                                                       epoch,
-                                                                      idx*input[0, 0],
+                                                                      idx*inputs[0, 0],
                                                                       len(data_loader.dataset),
                                                                       100. * idx / len(data_loader),
                                                                       loss.item(),
                                                                       acc))
             torch.save(imdb_model.state_dict(), '../../resources/model_save/imdb_net.pkl')
             torch.save(optimizer.state_dict(), '../../resources/model_save/imdb_optimizer.pkl')
+# def _get_batch(batch, ctx):
+#     """Return features and labels on ctx."""
+#     features, labels = batch
+#     if labels.dtype != features.dtype:
+#         labels = labels.astype(features.dtype)
+#     return (gutils.split_and_load(features, ctx),
+#             gutils.split_and_load(labels, ctx), features.shape[0])
+
+# def train(train_iter, test_iter, net, loss, trainer, ctx, num_epochs):
+#     """Train and evaluate a model."""
+#     print('training on', ctx)
+#     if isinstance(ctx, mx.Context):
+#         ctx = [ctx]
+#     for epoch in range(num_epochs):
+#         train_l_sum, train_acc_sum, n, m, start = 0.0, 0.0, 0, 0, time.time()
+#         for i, batch in enumerate(train_iter):
+#             Xs, ys, batch_size = _get_batch(batch, ctx)
+#             with autograd.record():
+#                 y_hats = [net(X) for X in Xs]
+#                 ls = [loss(y_hat, y) for y_hat, y in zip(y_hats, ys)]
+#             for l in ls:
+#                 l.backward()
+#             trainer.step(batch_size)
+#             train_l_sum += sum([l.sum().asscalar() for l in ls])
+#             n += sum([l.size for l in ls])
+#             train_acc_sum += sum([(y_hat.argmax(axis=1) == y).sum().asscalar()
+#                                  for y_hat, y in zip(y_hats, ys)])
+#             m += sum([y.size for y in ys])
+#         test_acc = evaluate_accuracy(test_iter, net, ctx)
+#         print('epoch %d, loss %.4f, train acc %.3f, test acc %.3f, '
+#               'time %.1f sec'
+#               % (epoch + 1, train_l_sum / n, train_acc_sum / m, test_acc,
+#                  time.time() - start))
 
 
 def test(imdb_model, test_batch_size):
@@ -52,6 +86,7 @@ def test(imdb_model, test_batch_size):
         for idx, (inputs, target) in enumerate(loader):
             target = target.to(device)
             inputs = inputs.to(device)
+            print(inputs)
             output = imdb_model(inputs)
             criterion = nn.CrossEntropyLoss()
             loss = criterion(output, target)
@@ -63,10 +98,10 @@ def test(imdb_model, test_batch_size):
 
 
 if __name__ == '__main__':
-    train_data = [['"dick tracy" is one of our"', 1],
-                  ['arguably this is a  the )', 1],
-                  ["i don't  just to warn anyone ", 0]]
-    #train_data = read_imdb('train')
+    # train_data = [['"dick tracy" is one of our"', 1],
+    #               ['arguably this is a  the )', 1],
+    #               ["i don't  just to warn anyone ", 0]]
+    train_data = read_imdb('train')
     # 1.获取分词数据形式[[评论1分词1,评论1分词n], [评论i分词1， 评论i分词m].....]
     tokenized_data = get_tokenized(train_data)
 

@@ -1,9 +1,11 @@
 import os.path
 
 import torch
+from torch import nn
 from torchtext import vocab
 
 from pytorch.src.rnn.birnn_model import BiRNN
+from pytorch.src.rnn.data_load import ImdbLoader
 from pytorch.src.rnn.data_preprocess import get_tokenized, get_vocab
 
 
@@ -41,6 +43,12 @@ if __name__ == '__main__':
     # 3. 构建模型
     embed_size, hidden_size, num_layers = 100, 100, 2
     net = BiRNN(vo, embed_size, hidden_size, num_layers)
-    glove_vab = getGlove()
-    net.embedding.weight.data.copy_(load_pretrained_embedding(vo.get_itos(), glove_vab))
-    net.embedding.weight.requires_grad = False
+    # glove_vab = getGlove()
+    # net.embedding.weight.data.copy_(load_pretrained_embedding(vo.get_itos(), glove_vab))
+    # net.embedding.weight.requires_grad = False
+
+    #print(tokenized_data)
+    #output = net(torch.tensor(tokenized_data))
+
+
+

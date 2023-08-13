@@ -1,6 +1,7 @@
 from torch import nn as nn
 import torch
 
+from pytorch.src.rnn.data_load import ImdbLoader
 from pytorch.src.rnn.data_preprocess import get_tokenized, get_vocab
 
 
@@ -18,7 +19,9 @@ class BiRNN(nn.Module):
 
     def forward(self, inputs):
         print('rnn model py: input_shape: ', inputs.shape)
-        embeddings = self.embedding(inputs.permute(1, 0))
+        embeddings = self.embedding(inputs)
+        print('after embed input shape:', embeddings.shape)
+        embeddings = embeddings.permute(1, 0, 2)
         output_sequence, _ = self.encoder(embeddings)
         concat_out = torch.cat((output_sequence[0], output_sequence[-1]), -1)
         outputs = self.decoder(concat_out)
@@ -38,3 +41,12 @@ if __name__ == '__main__':
     # 3. 构建模型
     embed_size, hidden_size, num_layers = 100, 100, 2
     net = BiRNN(vo, embed_size, hidden_size, num_layers)
+
+    loader = ImdbLoader('train', 3)
+    data_loader = loader.get_data_loader()
+    for idx, (inputs, target) in enumerate(data_loader):
+        print(inputs.shape,  target.shape)
+
+        out = net(inputs)
+        print(out.shape)
+        break
