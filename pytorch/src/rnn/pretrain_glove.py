@@ -22,7 +22,7 @@ def load_pretrained_embedding(words, pretrained_vocabu):
     for i, word in enumerate(words):
         try:
             idx = pretrained_vocabu.stoi[word]
-            print('idx:', idx, 'word:', word)
+            # print('idx:', idx, 'word:', word)
             embed_words[i, :] = pretrained_vocabu.vectors[idx]
         except KeyError:
             count_words += 1
