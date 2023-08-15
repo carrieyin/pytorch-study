@@ -1,6 +1,8 @@
 import collections
 import os.path
 import random
+import re
+
 import torch
 import tarfile
 from torch.nn import RNN
@@ -22,7 +24,7 @@ if not os.path.exists(imdb_zip_path):
 def read_imdb(datafolder ='train', dataroot=imdb_zip_path):
     data=[]
     for label in ['pos', 'neg']:
-        filepath =  os.path.join(imdb_zip_path, datafolder, label)
+        filepath = os.path.join(imdb_zip_path, datafolder, label)
         for file in tqdm(os.listdir(filepath)):
             with open(os.path.join(filepath,file), 'rb') as f:
                 content = f.read().decode('utf-8').replace('\n', ' ').lower()
@@ -35,7 +37,11 @@ def read_imdb(datafolder ='train', dataroot=imdb_zip_path):
 # 数据分词，使用最简单的空格分词
 def get_tokenized(data):
     def tokenizer(text):
-        return [item.lower() for item in text.split(" ")]
+        filters = ['!', '"', '#', '$', '%', '&', '\(', '\)', '\*', '\+', ',', '-', '\.', '/', ':', ';', '<', '=', '>',
+                    '\?', '@', '\[', '\\', '\]', '^', '_', '`', '\{', '\|', '\}', '~', '\t', '\n', '\x97', '\x96', '”', '“', ]
+        text = re.sub("<.*?>", " ", text, flags=re.S)
+        text = re.sub("|".join(filters), " ", text, flags=re.S)
+        return [i.strip().lower() for i in text.split()]
     return [tokenizer(context) for context, _ in data]
 
 
