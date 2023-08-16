@@ -17,7 +17,7 @@ class ImdbLoader(object):
         data = preprocess(train_data)
         #print(data)
         data_set = Data.TensorDataset(*data)
-        data_loader = Data.DataLoader(data_set, self.batch_size)
+        data_loader = Data.DataLoader(data_set, self.batch_size, shuffle=True)
         return data_loader
 
 

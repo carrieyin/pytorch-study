@@ -1,3 +1,5 @@
+import pickle
+
 import torch
 
 from pytorch.src.rnn import config
@@ -13,12 +15,13 @@ def predict_sentiment(net, vocabulary, sentence):
 
 
 if __name__ == '__main__':
-    test_data = read_imdb('train')
-    tokenized_data = get_tokenized(test_data)
-    # print(tokenized_data)
-
-    # 2. 获取分词词汇表(vocab类)
-    vo = get_vocab(tokenized_data)
+    # test_data = read_imdb('train')
+    # tokenized_data = get_tokenized(test_data)
+    # # print(tokenized_data)
+    #
+    # # 2. 获取分词词汇表(vocab类)
+    # vo = get_vocab(tokenized_data)
+    vo = pickle.load(open("../../resources/model_save/vocabulary.pkl", 'rb'))
 
     embed_size, hidden_size, num_layers = 100, 100, 2
     net = BiRNN(vo, embed_size, hidden_size, num_layers)
@@ -27,7 +30,7 @@ if __name__ == '__main__':
     net.embedding.weight.requires_grad = False
     net.load_state_dict(torch.load("../../resources/model_save/imdb_net.pkl"))
 
-    label = predict_sentiment(net, vo, ['this', 'movie', 'is', 'so', 'good'])
+    label = predict_sentiment(net, vo, ['this', 'movie', 'has', 'an', 'happy', 'ending'])
     print(label)
     label = predict_sentiment(net, vo, ['this', 'movie', 'is', 'so', 'bad'])
     print(label)
