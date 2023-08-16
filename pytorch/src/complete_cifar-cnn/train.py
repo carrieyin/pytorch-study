@@ -38,7 +38,7 @@ class ClassMoudle(nn.Module):
 loss = nn.CrossEntropyLoss()
 mouleTest=ClassMoudle()
 
-optim = torch.optim.SGD(mouleTest.parameters(),lr=0.01)
+optim = torch.optim.SGD(mouleTest.parameters(), lr=0.01)
 
 index=0
 writer = SummaryWriter("logs")
@@ -46,7 +46,8 @@ for epoch in range(10):
     print("train: epoch:{}".format(epoch))
     for data in dataloader:
         image, target = data
-        #print(target)
+        #print(image)
+        print(image.shape)
         output = mouleTest(image)
         lossresult = loss(output, target)
         optim.zero_grad()
