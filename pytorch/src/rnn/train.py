@@ -1,7 +1,7 @@
+import pickle
+
 import torch.optim
 from torch import nn, autograd
-from torchtext.vocab import vocab
-import os
 from pytorch.src.rnn.birnn_model import BiRNN
 from pytorch.src.rnn.config import device
 from pytorch.src.rnn.data_load import ImdbLoader
@@ -56,6 +56,7 @@ if __name__ == '__main__':
 
     # 2. 获取分词词汇表(vocab类)
     vo = get_vocab(tokenized_data)
+    pickle.dump(vo, open("../../resources/model_save/vocabulary.pkl", 'wb'))
 
     # 3. 构建模型
     embed_size, hidden_size, num_layers = 100, 100, 2

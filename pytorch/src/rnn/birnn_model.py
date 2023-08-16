@@ -12,7 +12,8 @@ class BiRNN(nn.Module):
         self.encoder = nn.LSTM(input_size=embed_len,
                                hidden_size=hidden_len,
                                num_layers=num_layer,
-                               bidirectional=True)
+                               bidirectional=True,
+                               dropout = 0.3)
 
         # 本次使用起始和最终时间步的隐藏状态座位全连接层的输入
         self.decoder = nn.Linear(2*2*hidden_len, 2)
