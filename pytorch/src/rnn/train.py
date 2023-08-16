@@ -2,8 +2,6 @@ import pickle
 
 import torch.optim
 from torch import nn, autograd
-from torchtext.vocab import vocab
-import os
 from pytorch.src.rnn.birnn_model import BiRNN
 from pytorch.src.rnn.config import device
 from pytorch.src.rnn.data_load import ImdbLoader

@@ -25,9 +25,7 @@ if __name__ == '__main__':
 
     embed_size, hidden_size, num_layers = 100, 100, 2
     net = BiRNN(vo, embed_size, hidden_size, num_layers)
-    glove_vab = getGlove()
-    net.embedding.weight.data.copy_(load_pretrained_embedding(vo.get_itos(), glove_vab))
-    net.embedding.weight.requires_grad = False
+
     net.load_state_dict(torch.load("../../resources/model_save/imdb_net.pkl"))
 
     label = predict_sentiment(net, vo, ['this', 'movie', 'has', 'an', 'happy', 'ending'])

@@ -1,10 +1,11 @@
+import pickle
+
 import torch
 from torch import nn
 
 from pytorch.src.rnn.birnn_model import BiRNN
 from pytorch.src.rnn.config import device
 from pytorch.src.rnn.data_load import ImdbLoader
-from pytorch.src.rnn.data_preprocess import read_imdb, get_tokenized, get_vocab
 from pytorch.src.rnn.pretrain_glove import getGlove, load_pretrained_embedding
 
 
@@ -29,12 +30,13 @@ def test(imdb_model, test_batch_size):
 
 
 if __name__ == '__main__':
-    test_data = read_imdb('train')
-    tokenized_data = get_tokenized(test_data)
-    # print(tokenized_data)
-
-    # 2. 获取分词词汇表(vocab类)
-    vo = get_vocab(tokenized_data)
+    # test_data = read_imdb('train')
+    # tokenized_data = get_tokenized(test_data)
+    # # print(tokenized_data)
+    #
+    # # 2. 获取分词词汇表(vocab类)
+    # vo = get_vocab(tokenized_data)
+    vo = pickle.load(open("../../resources/model_save/vocabulary.pkl", 'rb'))
 
     embed_size, hidden_size, num_layers = 100, 100, 2
     net = BiRNN(vo, embed_size, hidden_size, num_layers)
