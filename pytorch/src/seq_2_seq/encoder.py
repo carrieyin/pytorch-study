@@ -8,7 +8,8 @@ from pytorch.src.seq_2_seq import config
 
 
 class Encoder(nn.Module):
-    def __init__(self):
-        super(Encoder, self).__init__()
-        self.encode = nn.GRU(input_size=,num_layers=config, )
+    def __init__(self, vocab_size, embed_size, num_hiddens, num_layers,
+                 dropout=0, **kwargs):
+        super(Encoder, self).__init__(**kwargs)
+        self.encode = nn.GRU()
 
