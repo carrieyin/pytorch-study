@@ -46,11 +46,18 @@ def test_shape():
 def test_repeat():
     a = torch.tensor(([[1, 2, 3, 4], [4, 5, 6, 9], [1, 2, 3, 4]]))
     b = torch.tensor(([[1, 2]]))
-    #print(a.shape, a.shape[0])
+    print(a.shape, b.shape)
 
     c = b.repeat(a.shape[0], 1, 1)
-    print(b.shape, c.shape)
+    print( c.shape)
 
+
+def test_concat():
+    batch_size, num_steps, embed_size = 2, 3, 4
+    a = torch.zeros((batch_size, num_steps, embed_size), dtype=torch.long)
+    b = torch.tensor(([[1, 2]]))
+    c = torch.concat(a, b)
+    print(c)
 
 if __name__ == '__main__':
     #test_load()
@@ -58,4 +65,5 @@ if __name__ == '__main__':
     # print(sts[0])
     # test_shape()
     test_repeat()
+    test_concat()
 

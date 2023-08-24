@@ -13,7 +13,7 @@ class Encoder(nn.Module):
                  dropout=0, **kwargs):
         super(Encoder, self).__init__(**kwargs)
         self.embedding = nn.Embedding(vocab_size, embed_size)
-        self.encode = nn.GRU(embed_size, num_hiddens, num_layers, dropout=dropout)
+        self.gru = nn.GRU(embed_size, num_hiddens, num_layers, dropout=dropout)
 
     def forward(self, X, *args):
         # input shape (batchsize, num_steps)-> (batchsize, num_steps, embedingdim)
@@ -23,6 +23,6 @@ class Encoder(nn.Module):
         # encode编码
         # out的形状 (num_steps, batch_size, num_hiddens)
         # state的形状: (num_layers, batch_size, num_hiddens)
-        output, state = self.rnn(X)
+        output, state = self.gru(X)
         return output, state
 
