@@ -86,8 +86,26 @@ def tokenize_nmt(text, num_examples=None):
 
     return source, target
 
+
+# reduce_sum = lambda x, *args, **kwargs: x.sum(*args, **kwargs)
+# astype = lambda x, *args, **kwargs: x.type(*args, **kwargs)
+
+
+def reduce_sum(x, *args, **kwargs):
+        # x.sum(dim=1) 在dim1上加总
+        b = x.sum(*args, **kwargs)
+        return b
+
+def astype(x, *args, **kwargs):
+    # 类型转换x.type(torch.int32)
+    b = x.type(*args, **kwargs)
+    return b
+
+
 def build_array_nmt(lines, vocab, num_steps):
     """将机器翻译的文本序列转换成小批量
+    source[['hello', 'world'],..]  target[['bojour'], []]
+    source[[]]
     """
     lines = [vocab[l] for l in lines]
     lines = [l + [vocab['<eos>']] for l in lines]
@@ -100,7 +118,7 @@ def build_array_nmt(lines, vocab, num_steps):
 
 def truncate_pad(line, num_steps, padding_token):
     """截断或填充文本序列
-    num_steps为最大长度，line长度小于该长度，pad填充
+    num_steps为最大长度，line长度小于该长度pad填充,
     """
     if len(line) > num_steps:
         return line[:num_steps]  # 截断
@@ -126,11 +144,6 @@ def load_data_nmt(batch_size, num_steps, num_examples=600):
     data_arrays = (src_array, src_valid_len, tgt_array, tgt_valid_len)
     data_iter = load_array(data_arrays, batch_size)
     return data_iter, src_vocab, tgt_vocab
-
-
-
-reduce_sum = lambda x, *args, **kwargs: x.sum(*args, **kwargs)
-astype = lambda x, *args, **kwargs: x.type(*args, **kwargs)
 
 
 if __name__ == '__main__':
