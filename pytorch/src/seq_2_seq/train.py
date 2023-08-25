@@ -23,5 +23,5 @@ def train(net, data_iter, lr, num_epochs, tgt_vocab, device):
             l.sum().backward()	# 损失函数的标量进行“反向传播”
             #grad_clipping(net, 1)
             #num_tokens = Y_valid_len.sum()
-
+            optimizer.step()
         print('epoch{}, loss{}'.format(epoch, l))
