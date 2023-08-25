@@ -24,9 +24,9 @@ print(maxlen)
 
 loss = MaskedSoftmaxCELoss()
 # a = torch.ones(3, 4, 10)
-# b = torch.ones(3, 4, dtype=torch.long)
+b = torch.ones((3, 4), dtype=torch.long)
+print(b)
 # l = loss(a, b,  torch.tensor([4, 2, 0]))
 
-l = loss(torch.ones(3, 4, 10), torch.ones((3, 4), dtype=torch.long),
-     torch.tensor([4, 2, 0]))
+l = loss(torch.ones(3, 4, 10), torch.ones((3, 4), dtype=torch.long), torch.tensor([4, 2, 0]))
 print(l)
