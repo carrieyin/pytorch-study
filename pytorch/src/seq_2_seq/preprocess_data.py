@@ -6,7 +6,7 @@ import os
 import zipfile
 import torch.utils.data as Data
 import torch
-
+import tqdm
 from pytorch.src.seq_2_seq import config
 from pytorch.src.seq_2_seq.config import raw_file_path, raw_zip_path
 from pytorch.src.seq_2_seq.vocabulary import Vocabulary

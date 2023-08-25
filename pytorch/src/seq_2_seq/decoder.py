@@ -38,5 +38,5 @@ class Decoder(nn.Module):
         # output的形状(batch_size,num_steps,vocab_size)
         output = self.dense(output).permute(1, 0, 2)
 
-        return output
+        return output, state
 

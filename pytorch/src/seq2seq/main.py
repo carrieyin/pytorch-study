@@ -1,6 +1,7 @@
 from pytorch.src.d2l.torch import d2l
 from pytorch.src.seq2seq.decoder import Seq2SeqDecoder
 from pytorch.src.seq2seq.encode import Seq2SeqEncoder
+from pytorch.src.seq2seq.encoderdecoder import EncoderDecoder
 from pytorch.src.seq2seq.train import train_seq2seq
 
 embed_size, num_hiddens, num_layers, dropout = 32, 32, 2, 0.1
@@ -12,5 +13,5 @@ encoder = Seq2SeqEncoder(len(src_vocab), embed_size, num_hiddens, num_layers,
                         dropout)
 decoder = Seq2SeqDecoder(len(tgt_vocab), embed_size, num_hiddens, num_layers,
                         dropout)
-net = d2l.EncoderDecoder(encoder, decoder)
+net = EncoderDecoder(encoder, decoder)
 train_seq2seq(net, train_iter, lr, num_epochs, tgt_vocab, device)

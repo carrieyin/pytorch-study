@@ -1,3 +1,6 @@
+"""
+包括encoder和decoder的模型
+"""
 from torch import nn
 
 
@@ -11,4 +14,3 @@ class EncoderDecoder(nn.Module):
         outputs = self.encoder(input_x)
         enc_hidden = self.decoder.init_state(outputs)
         return self.decoder(target_x, enc_hidden)
-        
