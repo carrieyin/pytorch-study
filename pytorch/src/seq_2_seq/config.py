@@ -10,4 +10,7 @@ embed_size = 100
 num_examples = 800
 
 os.environ["CUDA_VISIBLE_DEVICES"] = "0"
+print(torch.cuda.is_available())
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+print(device)
+#print(torch.cuda.current_device())

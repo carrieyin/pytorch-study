@@ -83,8 +83,9 @@ def tokenize_nmt(text, num_examples=None):
         if len(parts) == 3:
             source.append(parts[0].split(' '))
             target.append(parts[1].split(' '))
-
-    return source, target
+    # todo 暂时修改成 法-英翻译
+    #return source, target
+    return target, source
 
 
 # reduce_sum = lambda x, *args, **kwargs: x.sum(*args, **kwargs)

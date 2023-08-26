@@ -28,11 +28,19 @@ class Vocabulary:
         return len(self.idx_to_token)
 
     def __getitem__(self, tokens):
+        """
+        :param tokens: 可以输入多个分词，或者输入 一个分词
+        :return: 输出分词对应的indices列表
+        """
         if not isinstance(tokens, (list, tuple)):
             return self.token_to_idx.get(tokens, self.unk)
         return [self.__getitem__(token) for token in tokens]
 
     def to_tokens(self, indices):
+        """
+        :param indices: 输入indices
+        :return: 输出单词
+        """
         if not isinstance(indices, (list, tuple)):
             return self.idx_to_token[indices]
         return [self.idx_to_token[index] for index in indices]

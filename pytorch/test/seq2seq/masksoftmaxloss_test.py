@@ -32,11 +32,18 @@ from pytorch.src.seq_2_seq.masksoftmax import MaskedSoftmaxCELoss, sequence_mask
 # print(l)
 label = torch.ones((3, 4),dtype=torch.long)
 valid_len = torch.tensor([4, 2, 0])
-print(valid_len)
 weights = torch.ones_like(label)
 maxlen = weights.size(1)
+temp = torch.arange((maxlen), dtype=torch.float32,
+                        device=weights.device)
+print('temp[None, :] is : ', temp[None, :])
+print('valid_len[:, None] is : ', valid_len[:, None])
+c = temp[None, :] < valid_len[:, None]
+print(c)
 mask = torch.arange((maxlen), dtype=torch.float32,
                         device=weights.device)[None, :] < valid_len[:, None]
+#print('~mask,', ~mask)
+
 weights[~mask] = 0
 print(weights)
 

@@ -17,7 +17,7 @@ class MaskedSoftmaxCELoss(nn.CrossEntropyLoss):
     # label的形状：(batch_size,num_steps)
     # valid_len的形状：(batch_size,)
     def forward(self, pred, label, valid_len):
-        print(pred.shape, label.shape, valid_len.shape)
+        #print(pred.shape, label.shape, valid_len.shape)
         weights = torch.ones_like(label)
         weights = sequence_mask(weights, valid_len)
         self.reduction='none'
