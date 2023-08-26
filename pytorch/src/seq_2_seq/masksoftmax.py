@@ -8,7 +8,7 @@ def sequence_mask(X, valid_len, value=0):
     mask = torch.arange((maxlen), dtype=torch.float32,
                         device=X.device)[None, :] < valid_len[:, None]
     X[~mask] = value
-    return X.size
+    return X
 
 
 class MaskedSoftmaxCELoss(nn.CrossEntropyLoss):
@@ -25,3 +25,4 @@ class MaskedSoftmaxCELoss(nn.CrossEntropyLoss):
             pred.permute(0, 2, 1), label)
         weighted_loss = (unweighted_loss * weights).mean(dim=1)
         return weighted_loss
+

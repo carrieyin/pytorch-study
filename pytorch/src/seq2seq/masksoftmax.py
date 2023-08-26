@@ -25,3 +25,9 @@ class MaskedSoftmaxCELoss(nn.CrossEntropyLoss):
             pred.permute(0, 2, 1), label)
         weighted_loss = (unweighted_loss * weights).mean(dim=1)
         return weighted_loss
+
+
+if __name__ == '__main__':
+    loss = MaskedSoftmaxCELoss()
+    l = loss(torch.ones(3, 4, 10), torch.ones((3, 4), dtype=torch.long), torch.tensor([4, 2, 0]))
+    print(l)
