@@ -31,14 +31,14 @@ from pytorch.src.seq_2_seq.masksoftmax import MaskedSoftmaxCELoss, sequence_mask
 # l = loss(torch.ones(3, 4, 10), torch.ones((3, 4), dtype=torch.long), torch.tensor([4, 2, 0]))
 # print(l)
 label = torch.ones((3, 4),dtype=torch.long)
-valid_len = torch.ones([4, 2, 0])
-weight = torch.ones_like(label)
-maxlen = weight.size(1)
+valid_len = torch.tensor([4, 2, 0])
+print(valid_len)
+weights = torch.ones_like(label)
+maxlen = weights.size(1)
 mask = torch.arange((maxlen), dtype=torch.float32,
-                        device=weight.device)[None, :] < valid_len[:, None]
-#print(mask, ~mask)
-weight[~mask] = 0
-print(weight)
+                        device=weights.device)[None, :] < valid_len[:, None]
+weights[~mask] = 0
+print(weights)
 
 # label = torch.ones((3, 4), dtype=torch.long)
 # valid_len = torch.tensor([4, 2, 0])
@@ -47,4 +47,4 @@ print(weight)
 # mask = torch.arange((maxlen), dtype=torch.float32,
 #                         device=weights.device)[None, :] < valid_len[:, None]
 # weights[~mask] = 0
-# print(weights)
+# # print(weights)
