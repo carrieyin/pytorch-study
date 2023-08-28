@@ -8,7 +8,7 @@ from pytorch.src.seq_2_seq.encoderdecoder import EncoderDecoder
 from pytorch.src.seq_2_seq.preprocess_data import load_data_nmt
 from pytorch.src.seq_2_seq.train import train
 
-data_iter, src_vocab, tgt_vocab = load_data_nmt(config.batch_size, config.num_steps, num_examples=6000)
+data_iter, src_vocab, tgt_vocab = load_data_nmt(config.batch_size, config.num_steps, num_examples=600)
 
 encoder = Encoder(len(src_vocab), config.embed_size, config.hidden_size, config.num_layers)
 decoder = Decoder(len(tgt_vocab), config.embed_size, config.hidden_size, config.num_layers)
